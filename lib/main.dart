@@ -46,10 +46,12 @@ class MyHomePage extends StatelessWidget {
       body: Column(
         children: [
           Text('Sebuah kata acak:'),
-          Text(appState.current.asLowerCase),
+          Text(appState.current.asPascalCase),
           ElevatedButton(
             onPressed: () {
-              print('tombol di tekan!');
+              appState.getNext();
+              // setiap menekan button, kata random akan berubah
+              // print('tombol di tekan!');
             },
             child: Text('Selanjutnya'),
           ),
