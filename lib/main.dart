@@ -55,7 +55,8 @@ class MyHomePage extends StatelessWidget {
         children: [
           SafeArea(
             child: NavigationRail(
-              extended: false,
+              extended: true,
+              // false : tidak ada label pada home dan like
               destinations: [
                 NavigationRailDestination(
                   icon: Icon(Icons.home),
