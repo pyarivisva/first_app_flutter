@@ -33,6 +33,18 @@ class MyAppState extends ChangeNotifier {
     current = WordPair.random();
     notifyListeners();
   }
+
+  var favorites = <WordPair>[];
+  // property favorites di inisiasi dengan list kosong
+
+  void toggleFavorite() {
+    if (favorites.contains(current)) {
+      favorites.remove(current);
+    } else {
+      favorites.add(current);
+    }
+    notifyListeners();
+  }
 }
 
 class MyHomePage extends StatelessWidget {
@@ -43,20 +55,41 @@ class MyHomePage extends StatelessWidget {
     // method watch untuk melacak perubahan status aplikasi
     var pair = appState.current;
 
+    IconData icon;
+    if (appState.favorites.contains(pair)) {
+      icon = Icons.favorite;
+    } else {
+      icon = Icons.favorite_border;
+    }
+
     return Scaffold(
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('Sebuah kata acak:'),
+            // Text('Sebuah kata acak:'),
             BigCard(pair: pair),
-            ElevatedButton(
-              onPressed: () {
-                appState.getNext();
-                // setiap menekan button, kata random akan berubah
-                // print('tombol di tekan!');
-              },
-              child: Text('Selanjutnya'),
+            SizedBox(height: 10),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ElevatedButton.icon(
+                  onPressed: () {
+                    appState.toggleFavorite();
+                    // setiap menekan button, kata random akan berubah
+                    // print('tombol di tekan!');
+                  },
+                  icon: Icon(icon),
+                  label: Text('Like'),
+                ),
+                SizedBox(width: 18),
+                ElevatedButton(
+                  onPressed: () {
+                    appState.getNext();
+                  },
+                  child: Text('Next'),
+                ),
+              ],
             ),
           ],
         ),
