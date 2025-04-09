@@ -41,21 +41,55 @@ class MyHomePage extends StatelessWidget {
     // method build untuk selalu build setiap kali ada perubahan widget
     var appState = context.watch<MyAppState>();
     // method watch untuk melacak perubahan status aplikasi
+    var pair = appState.current;
 
     return Scaffold(
-      body: Column(
-        children: [
-          Text('Sebuah kata acak:'),
-          Text(appState.current.asPascalCase),
-          ElevatedButton(
-            onPressed: () {
-              appState.getNext();
-              // setiap menekan button, kata random akan berubah
-              // print('tombol di tekan!');
-            },
-            child: Text('Selanjutnya'),
-          ),
-        ],
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('Sebuah kata acak:'),
+            BigCard(pair: pair),
+            ElevatedButton(
+              onPressed: () {
+                appState.getNext();
+                // setiap menekan button, kata random akan berubah
+                // print('tombol di tekan!');
+              },
+              child: Text('Selanjutnya'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class BigCard extends StatelessWidget {
+  const BigCard({
+    super.key,
+    required this.pair,
+  });
+
+  final WordPair pair;
+
+  @override
+  Widget build(BuildContext context) {
+    var theme = Theme.of(context);
+
+    var style = theme.textTheme.displayMedium!.copyWith(
+      color: theme.colorScheme.onPrimary,
+    );
+
+    return Card(
+      color: theme.colorScheme.primary,
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Text(
+          pair.asPascalCase,
+          style: style,
+          semanticsLabel: "${pair.first} ${pair.second}",
+        ),
       ),
     );
   }
